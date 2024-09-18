@@ -98,8 +98,9 @@ public class RouteController {
   }
 
   /**
-   * Displays the details of all the courses with the same course code, regardless of their department.
-   * 
+   * Displays the details of all the courses with the same course code, regardless of 
+   * their department.
+   *
    * @param courseCode  A {@code int} representing the course the user wishes to retrieve.
    * 
    * @return            A {@code ResponseEntity} object containing either the details of the
@@ -109,7 +110,7 @@ public class RouteController {
 
   @GetMapping(value = "/retrieveCourses", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> retrieveCourses(
-    @RequestParam("courseCode") int courseCode
+      @RequestParam("courseCode") int courseCode
   ) {
     try {
       ResponseEntity<?> tryRetrievingCourse;
@@ -123,7 +124,10 @@ public class RouteController {
         if (tryRetrievingCourse.getStatusCode() == HttpStatus.OK) {
           // if the course exists, add it to the map
           coursesMapping = departmentMapping.get(deptCode).getCourseSelection();
-          coursesWithSameCodeToString.put(deptCode, coursesMapping.get(Integer.toString(courseCode)).toString());
+          coursesWithSameCodeToString.put(
+              deptCode, 
+              coursesMapping.get(Integer.toString(courseCode)).toString()
+          );
         }
       }
       if (coursesWithSameCodeToString.isEmpty()) {
@@ -396,7 +400,7 @@ public class RouteController {
    * @return               A {@code ResponseEntity} object containing an HTTP 200
    *                       response with an appropriate message or the proper status
    *                       code in tune with what has happened.
-   */
+   */ 
   @PatchMapping(value = "/removeMajorFromDept", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> removeMajorFromDept(@RequestParam("deptCode") String deptCode) {
     try {
@@ -417,7 +421,7 @@ public class RouteController {
 
   /**
    * Attempts to add a student to the specified course.
-   * 
+   *
    * @param deptCode        A {@code String} representing the department.
    * @param courseCode      A {@code int} representing the course within the department.
    * 
@@ -430,8 +434,9 @@ public class RouteController {
       @RequestParam("deptCode") String deptCode, 
       @RequestParam("courseCode") int courseCode
   ) {
-    try{
-      boolean doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
+    try {
+      boolean doesCourseExists;
+      doesCourseExists = retrieveCourse(deptCode, courseCode).getStatusCode() == HttpStatus.OK;
       if (doesCourseExists) {
         Map<String, Department> departmentMapping;
         departmentMapping = IndividualProjectApplication.myFileDatabase.getDepartmentMapping();
